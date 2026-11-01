@@ -1,0 +1,6 @@
+order_id,sale_date,dealership_location,salesperson,customer_name,make,model,year,color,mileage,price,payment_type
+SO-10016,2026-07-13,Austin,J. Rivera,Hannah Foster,Mazda,CX-5,2025,Blue,8,33200.00,Finance
+SO-10017,2026-07-13,Chicago,T. Okafor,Benjamin Ross,Subaru,Forester,2024,Green,4200,31900.00,Cash
+SO-10018,2026-07-14,Denver,K. Nolan,Zoe Campbell,Toyota,Corolla,2025,White,2,22100.00,Lease
+SO-10019,2026-07-15,Chicago,T. Okafor,Elijah Turner,Ford,Explorer,2023,Black,17800,36750.00,Finance
+SO-10020,2026-07-16,Miami,R. Alvarez,Amara Johnson,Honda,Accord,2024,Silver,6100,28600.00,Cash

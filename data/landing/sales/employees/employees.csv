@@ -1,0 +1,13 @@
+employee_id,first_name,last_name,job_title,dealership_location,hire_date,email,phone
+EMP-1001,Jordan,Rivera,Sales Associate,Austin,2021-04-12,jordan.rivera@lonestarauto.example,512-555-0201
+EMP-1002,Kayla,Nolan,Sales Associate,Denver,2020-09-01,kayla.nolan@milehighmotors.example,303-555-0212
+EMP-1003,Aiden,Chen,Sales Associate,Seattle,2019-01-22,aiden.chen@evergreenauto.example,206-555-0223
+EMP-1004,Tariq,Okafor,Sales Associate,Chicago,2022-03-15,tariq.okafor@windycitymotors.example,773-555-0234
+EMP-1005,Rosa,Alvarez,Sales Associate,Miami,2021-07-08,rosa.alvarez@sunshineauto.example,305-555-0245
+EMP-1006,Marcus,Diaz,General Manager,Austin,2015-03-01,marcus.diaz@lonestarauto.example,512-555-0202
+EMP-1007,Elena,Park,General Manager,Denver,2017-06-15,elena.park@milehighmotors.example,303-555-0213
+EMP-1008,Grace,Thompson,General Manager,Seattle,2012-11-20,grace.thompson@evergreenauto.example,206-555-0224
+EMP-1009,Victor,Nguyen,General Manager,Chicago,2019-02-10,victor.nguyen@windycitymotors.example,773-555-0235
+EMP-1010,Camila,Reyes,General Manager,Miami,2020-09-05,camila.reyes@sunshineauto.example,305-555-0246
+EMP-1011,Priya,Malhotra,Finance Manager,Austin,2018-10-03,priya.malhotra@lonestarauto.example,512-555-0207
+EMP-1012,Owen,Fischer,Finance Manager,Denver,2021-01-18,owen.fischer@milehighmotors.example,303-555-0219

@@ -1,0 +1,57 @@
+{
+  "sources": [
+    {
+      "id": "cars",
+      "contract": "contracts/silver/sales/cars.yaml",
+      "location": "./data/silver/sales/cars",
+      "format": "delta",
+      "options": {},
+      "read": "spark_read_file",
+      "transform": {
+        "engine": "pyspark-sql",
+        "sql": "SELECT\n  dealership_location,\n  COUNT(*) AS transaction_count,\n  SUM(price) AS total_sales_value,\n  AVG(price) AS average_sale_price\nFROM cars\nGROUP BY dealership_location\n"
+      }
+    },
+    {
+      "id": "employees",
+      "contract": "contracts/silver/sales/employees.yaml",
+      "location": "./data/silver/sales/employees",
+      "format": "delta",
+      "options": {},
+      "read": "spark_read_file",
+      "transform": {
+        "engine": "pyspark-sql",
+        "sql": "SELECT\n  dealership_location,\n  COUNT(*) AS employee_count\nFROM employees\nGROUP BY dealership_location\n"
+      }
+    },
+    {
+      "id": "locations",
+      "contract": "contracts/silver/sales/locations.yaml",
+      "location": "./data/silver/sales/locations",
+      "format": "delta",
+      "options": {},
+      "read": "spark_read_file",
+      "transform": {
+        "engine": "pyspark-sql",
+        "sql": "SELECT dealership_location, city, state, opened_date\nFROM locations\n"
+      }
+    }
+  ],
+  "transform": {
+    "engine": "pyspark-sql",
+    "sql": "SELECT\n  l.dealership_location,\n  l.city,\n  l.state,\n  l.opened_date,\n  COALESCE(c.transaction_count, 0) AS transaction_count,\n  COALESCE(c.total_sales_value, 0) AS total_sales_value,\n  c.average_sale_price,\n  COALESCE(e.employee_count, 0) AS employee_count,\n  CAST(COALESCE(c.total_sales_value, 0) / NULLIF(e.employee_count, 0) AS DECIMAL(20,2)) AS sales_per_employee\nFROM locations AS l\nLEFT JOIN cars AS c ON c.dealership_location = l.dealership_location\nLEFT JOIN employees AS e ON e.dealership_location = l.dealership_location\n"
+  },
+  "ingestion_config": {
+    "write": "spark_write_file",
+    "mode": "overwrite"
+  },
+  "businessMetrics": [
+    {
+      "name": "network_sales_per_employee",
+      "description": "Total sales value across the network divided by total headcount.",
+      "sql": "SELECT SUM(total_sales_value) / NULLIF(SUM(employee_count), 0) FROM sales_dealership_performance_gold",
+      "metricType": "RATIO",
+      "unit": "DOLLARS"
+    }
+  ]
+}

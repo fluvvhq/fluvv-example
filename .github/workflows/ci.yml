@@ -1,0 +1,90 @@
+name: CI
+
+# The example as a user runs it, against the released packages: the open
+# tooling on every change, the engine end to end when a license is
+# configured. Weekly too, so a new fluvv or fluvv-engine release that
+# breaks the example shows up here first.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  open:
+    name: Lint and compile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - run: pip install -r requirements.txt
+      - run: fluvv lint
+      - name: Generated files match their contracts
+        run: |
+          fluvv export contracts/*/*/*.yaml > /dev/null
+          git diff --exit-code contracts/spark_schemas contracts/ingestion_config
+      - run: fluvv compile
+
+  engine:
+    name: Ingest and test (Fluvv Engine)
+    needs: open
+    runs-on: ubuntu-latest
+    # Repository secrets: FLUVV_LICENSE_KEY (the license key) and
+    # FLUVV_LICENSE (the license file's contents). Without them, e.g. in a
+    # fork, this job reports that and passes.
+    env:
+      FLUVV_LICENSE_KEY: ${{ secrets.FLUVV_LICENSE_KEY }}
+      FLUVV_LICENSE: ${{ secrets.FLUVV_LICENSE }}
+    steps:
+      - name: Check for a license
+        id: license
+        run: |
+          if [ -n "$FLUVV_LICENSE_KEY" ] && [ -n "$FLUVV_LICENSE" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No license secrets configured; skipping the engine run."
+          fi
+      - if: steps.license.outputs.present == 'true'
+        uses: actions/checkout@v7
+      - if: steps.license.outputs.present == 'true'
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "21"
+      - if: steps.license.outputs.present == 'true'
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - if: steps.license.outputs.present == 'true'
+        name: Install
+        run: |
+          pip install -r requirements-engine.txt
+          printf '%s\n' "$FLUVV_LICENSE" > fluvv.lic
+          fluvv license report
+      - if: steps.license.outputs.present == 'true'
+        name: Ingest, upstream first
+        run: fluvv ingest contracts/bronze/sales/*.yaml contracts/silver/sales/*.yaml contracts/gold/sales/*.yaml
+      - if: steps.license.outputs.present == 'true'
+        name: Test every table against its contract
+        run: |
+          python - <<'PY'
+          import sys
+          from pathlib import Path
+          from fluvv import Contract
+
+          failed = []
+          for path in sorted(Path("contracts").glob("*/sales/*.yaml")):
+              run = Contract(path).test()
+              print(f"{path}: {run.result}")
+              if not run.has_passed():
+                  failed.append(str(path))
+          sys.exit(f"failed: {', '.join(failed)}" if failed else 0)
+          PY

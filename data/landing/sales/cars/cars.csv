@@ -1,0 +1,16 @@
+order_id,sale_date,dealership_location,salesperson,customer_name,make,model,year,color,mileage,price,payment_type
+SO-10001,2026-07-01,Austin,J. Rivera,Marcus Bell,Toyota,Camry,2024,Silver,12,28450.00,Finance
+SO-10002,2026-07-01,Denver,K. Nolan,Priya Shah,Ford,F-150,2023,Blue,8500,41200.00,Lease
+SO-10003,2026-07-02,Austin,J. Rivera,Devon Clarke,Honda,Civic,2025,White,5,23990.00,Cash
+SO-10004,2026-07-03,Seattle,A. Chen,Sofia Martinez,Tesla,Model 3,2024,Black,150,39990.00,Finance
+SO-10005,2026-07-03,Denver,K. Nolan,Liam O'Connor,Chevrolet,Silverado,2022,Red,22300,35800.00,Finance
+SO-10006,2026-07-04,Miami,R. Alvarez,Natalie Wong,Honda,CR-V,2024,Gray,300,31250.00,Lease
+SO-10007,2026-07-05,Austin,J. Rivera,Ethan Brooks,Toyota,RAV4,2023,Green,9800,29875.00,Cash
+SO-10008,2026-07-06,Seattle,A. Chen,Grace Kim,Subaru,Outback,2025,Silver,15,34500.00,Finance
+SO-10009,2026-07-07,Miami,R. Alvarez,Oliver Diaz,Ford,Mustang,2021,Yellow,31200,26900.00,Cash
+SO-10010,2026-07-08,Denver,K. Nolan,Ava Thompson,Jeep,Wrangler,2024,Orange,1200,42300.00,Finance
+SO-10011,2026-07-08,Austin,J. Rivera,Noah Patel,Hyundai,Elantra,2025,Blue,3,21750.00,Cash
+SO-10012,2026-07-09,Seattle,A. Chen,Isabella Ruiz,Kia,Sportage,2023,White,14500,27400.00,Lease
+SO-10013,2026-07-10,Miami,R. Alvarez,Mason Lee,Nissan,Altima,2022,Black,19800,22300.00,Finance
+SO-10014,2026-07-11,Denver,K. Nolan,Chloe Nguyen,Toyota,Highlander,2024,Silver,600,42990.00,Finance
+SO-10015,2026-07-12,Austin,J. Rivera,Lucas Ferreira,BMW,3 Series,2025,Black,10,45200.00,Lease

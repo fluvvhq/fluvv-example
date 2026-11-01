@@ -1,0 +1,30 @@
+{
+  "sources": [
+    {
+      "id": "sales_locations_silver",
+      "contract": "contracts/silver/sales/locations.yaml",
+      "location": "./data/silver/sales/locations",
+      "format": "delta",
+      "options": {},
+      "read": "spark_read_file",
+      "transform": null
+    }
+  ],
+  "transform": {
+    "engine": "pyspark-sql",
+    "sql": "SELECT\n  location_id,\n  dealership_location,\n  firm_name,\n  address,\n  city,\n  state,\n  zip_code,\n  phone,\n  opened_date\nFROM sales_locations_silver\n"
+  },
+  "ingestion_config": {
+    "write": "spark_write_file",
+    "mode": "overwrite"
+  },
+  "businessMetrics": [
+    {
+      "name": "active_location_count",
+      "description": "Number of dealership locations in this dimension.",
+      "sql": "SELECT COUNT(*) FROM sales_locations_gold",
+      "metricType": "COUNT",
+      "unit": "COUNT"
+    }
+  ]
+}

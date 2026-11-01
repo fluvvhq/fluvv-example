@@ -1,0 +1,19 @@
+.venv/
+__pycache__/
+
+# Built by `fluvv ingest`: Delta tables and run records. Local state.
+data/bronze/
+data/silver/
+data/gold/
+data/_meta/
+
+# Written by `fluvv compile`; derived from contracts/ and governance/.
+target/
+
+# Issued to one licensee; tokens for OpenMetadata. Never committed.
+fluvv.lic
+.env
+.env.*
+
+# OpenMetadata's database volume.
+openmetadata/docker-volume/

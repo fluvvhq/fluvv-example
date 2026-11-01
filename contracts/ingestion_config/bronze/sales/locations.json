@@ -1,0 +1,24 @@
+{
+  "sources": [
+    {
+      "id": "sales_locations_landing",
+      "contract": null,
+      "location": "./data/landing/sales/locations",
+      "format": "csv",
+      "options": {
+        "header": true
+      },
+      "read": "spark_read_file",
+      "transform": null
+    }
+  ],
+  "transform": {
+    "engine": "pyspark-sql",
+    "sql": "SELECT\n  location_id,\n  dealership_location,\n  firm_name,\n  address,\n  city,\n  state,\n  zip_code,\n  phone,\n  opened_date,\n  'sales' AS _source_system,\n  input_file_name() AS _source_file,\n  current_timestamp() AS _ingested_at\nFROM sales_locations_landing\n"
+  },
+  "ingestion_config": {
+    "write": "spark_write_file",
+    "mode": "append"
+  },
+  "businessMetrics": []
+}

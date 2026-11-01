@@ -1,0 +1,30 @@
+{
+  "sources": [
+    {
+      "id": "sales_employees_silver",
+      "contract": "contracts/silver/sales/employees.yaml",
+      "location": "./data/silver/sales/employees",
+      "format": "delta",
+      "options": {},
+      "read": "spark_read_file",
+      "transform": null
+    }
+  ],
+  "transform": {
+    "engine": "pyspark-sql",
+    "sql": "SELECT\n  employee_id,\n  first_name,\n  last_name,\n  job_title,\n  dealership_location,\n  hire_date,\n  email,\n  phone\nFROM sales_employees_silver\n"
+  },
+  "ingestion_config": {
+    "write": "spark_write_file",
+    "mode": "overwrite"
+  },
+  "businessMetrics": [
+    {
+      "name": "employee_headcount",
+      "description": "Number of employees in this dimension.",
+      "sql": "SELECT COUNT(*) FROM sales_employees_gold",
+      "metricType": "COUNT",
+      "unit": "COUNT"
+    }
+  ]
+}

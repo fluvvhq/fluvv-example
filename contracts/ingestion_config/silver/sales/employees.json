@@ -1,0 +1,30 @@
+{
+  "sources": [
+    {
+      "id": "sales_employees_bronze",
+      "contract": "contracts/bronze/sales/employees.yaml",
+      "location": "./data/bronze/sales/employees",
+      "format": "delta",
+      "options": {},
+      "read": "spark_read_file",
+      "transform": null
+    }
+  ],
+  "transform": {
+    "engine": "pyspark-sql",
+    "sql": "-- Bronze keeps values as delivered (strings); silver casts them to the\n-- types its schema declares, until write-time enforcement exists (SPEC.md §2).\nSELECT\n  employee_id,\n  first_name,\n  last_name,\n  job_title,\n  dealership_location,\n  CAST(hire_date AS DATE) AS hire_date,\n  email,\n  phone\nFROM (\n  SELECT *, ROW_NUMBER() OVER (\n    PARTITION BY employee_id ORDER BY _ingested_at DESC\n  ) AS _rn\n  FROM sales_employees_bronze\n  WHERE employee_id IS NOT NULL\n) AS sales_employees_bronze\nWHERE _rn = 1\n"
+  },
+  "ingestion_config": {
+    "write": "spark_write_file",
+    "mode": "overwrite"
+  },
+  "businessMetrics": [
+    {
+      "name": "total_employees",
+      "description": "Total number of employees in this table.",
+      "sql": "SELECT COUNT(*) FROM sales_employees_silver",
+      "metricType": "COUNT",
+      "unit": "COUNT"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+sales_employees_silver = StructType([
+    StructField("employee_id",
+        StringType(),
+        False,
+        {"comment": "Unique employee identifier."}
+    ),
+    StructField("first_name",
+        StringType(),
+        False
+    ),
+    StructField("last_name",
+        StringType(),
+        False
+    ),
+    StructField("job_title",
+        StringType(),
+        False
+    ),
+    StructField("dealership_location",
+        StringType(),
+        False
+    ),
+    StructField("hire_date",
+        DateType(),
+        False
+    ),
+    StructField("email",
+        StringType(),
+        False
+    ),
+    StructField("phone",
+        StringType(),
+        True
+    )
+])

@@ -1,0 +1,30 @@
+{
+  "sources": [
+    {
+      "id": "sales_locations_bronze",
+      "contract": "contracts/bronze/sales/locations.yaml",
+      "location": "./data/bronze/sales/locations",
+      "format": "delta",
+      "options": {},
+      "read": "spark_read_file",
+      "transform": null
+    }
+  ],
+  "transform": {
+    "engine": "pyspark-sql",
+    "sql": "-- Bronze keeps values as delivered (strings); silver casts them to the\n-- types its schema declares, until write-time enforcement exists (SPEC.md §2).\nSELECT\n  location_id,\n  dealership_location,\n  firm_name,\n  address,\n  city,\n  state,\n  zip_code,\n  phone,\n  CAST(opened_date AS DATE) AS opened_date\nFROM (\n  SELECT *, ROW_NUMBER() OVER (\n    PARTITION BY location_id ORDER BY _ingested_at DESC\n  ) AS _rn\n  FROM sales_locations_bronze\n  WHERE location_id IS NOT NULL\n) AS sales_locations_bronze\nWHERE _rn = 1\n"
+  },
+  "ingestion_config": {
+    "write": "spark_write_file",
+    "mode": "overwrite"
+  },
+  "businessMetrics": [
+    {
+      "name": "total_locations",
+      "description": "Total number of dealership locations in this table.",
+      "sql": "SELECT COUNT(*) FROM sales_locations_silver",
+      "metricType": "COUNT",
+      "unit": "COUNT"
+    }
+  ]
+}

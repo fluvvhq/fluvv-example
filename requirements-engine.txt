@@ -1,0 +1,5 @@
+# Fluvv Engine, from Fluvv's package index. Set FLUVV_LICENSE_KEY first:
+# pip reads it from the environment, so the key never lands in this file.
+-r requirements.txt
+--extra-index-url https://license:${FLUVV_LICENSE_KEY}@pypi.pkg.keygen.sh/124dec4d-3966-4c5b-98c5-8d644ab1c6ac/simple
+fluvv-engine~=1.0.0

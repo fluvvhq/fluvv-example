@@ -1,0 +1,6 @@
+location_id,dealership_location,firm_name,address,city,state,zip_code,phone,opened_date
+LOC-001,Austin,Lonestar Auto Group,4800 S Lamar Blvd,Austin,TX,78745,512-555-0142,2015-03-01
+LOC-002,Denver,Mile High Motors,2200 S Colorado Blvd,Denver,CO,80222,303-555-0198,2017-06-15
+LOC-003,Seattle,Evergreen Auto Sales,1500 Aurora Ave N,Seattle,WA,98109,206-555-0173,2012-11-20
+LOC-004,Chicago,Windy City Motors,3300 N Pulaski Rd,Chicago,IL,60641,773-555-0164,2019-02-10
+LOC-005,Miami,Sunshine Auto Group,7800 NW 12th St,Miami,FL,33126,305-555-0187,2020-09-05

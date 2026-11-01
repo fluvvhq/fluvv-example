@@ -1,0 +1,39 @@
+sales_locations_silver = StructType([
+    StructField("location_id",
+        StringType(),
+        False,
+        {"comment": "Unique location identifier."}
+    ),
+    StructField("dealership_location",
+        StringType(),
+        False
+    ),
+    StructField("firm_name",
+        StringType(),
+        False
+    ),
+    StructField("address",
+        StringType(),
+        False
+    ),
+    StructField("city",
+        StringType(),
+        False
+    ),
+    StructField("state",
+        StringType(),
+        False
+    ),
+    StructField("zip_code",
+        StringType(),
+        False
+    ),
+    StructField("phone",
+        StringType(),
+        True
+    ),
+    StructField("opened_date",
+        DateType(),
+        False
+    )
+])

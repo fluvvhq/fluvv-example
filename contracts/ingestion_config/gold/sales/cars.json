@@ -1,0 +1,37 @@
+{
+  "sources": [
+    {
+      "id": "sales_cars_silver",
+      "contract": "contracts/silver/sales/cars.yaml",
+      "location": "./data/silver/sales/cars",
+      "format": "delta",
+      "options": {},
+      "read": "spark_read_file",
+      "transform": null
+    }
+  ],
+  "transform": {
+    "engine": "pyspark-sql",
+    "sql": "SELECT\n  dealership_location,\n  trunc(sale_date, 'MM') AS sale_month,\n  COUNT(*) AS transaction_count,\n  SUM(price) AS total_sales_value,\n  AVG(price) AS average_sale_price,\n  COUNT(DISTINCT customer_name) AS unique_customers\nFROM sales_cars_silver\nGROUP BY dealership_location, trunc(sale_date, 'MM')\n"
+  },
+  "ingestion_config": {
+    "write": "spark_write_file",
+    "mode": "overwrite"
+  },
+  "businessMetrics": [
+    {
+      "name": "total_revenue",
+      "description": "Total sales revenue across every dealership and month in this summary.",
+      "sql": "SELECT SUM(total_sales_value) FROM sales_cars_gold",
+      "metricType": "SUM",
+      "unit": "DOLLARS"
+    },
+    {
+      "name": "active_dealership_count",
+      "description": "Number of distinct dealerships represented in this summary.",
+      "sql": "SELECT COUNT(DISTINCT dealership_location) FROM sales_cars_gold",
+      "metricType": "COUNT",
+      "unit": "COUNT"
+    }
+  ]
+}
