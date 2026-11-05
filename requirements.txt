@@ -1,3 +1,4 @@
-# The open-source tooling: lint, compile, export and .test(). Any 1.0.x, so
-# patch releases arrive without editing this file.
-fluvv~=1.0.0
+# The open-source tooling: lint, compile, export, list, show, impact and
+# .test(). Any 1.x from 1.2, the first with impact, so new releases arrive
+# without editing this file.
+fluvv~=1.2
